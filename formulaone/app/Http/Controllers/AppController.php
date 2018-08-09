@@ -1,0 +1,48 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\ICal;
+use App\Calendar;
+use Datetime;
+
+class AppController extends Controller
+{
+    public function cronData(){
+    	date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+    	$ical   = new ICal('../ical.ics');
+    	$events = $ical->events();
+    	$data= [];
+    	foreach ($events as $event) {
+    		$start= $ical->iCalDateToUnixTimestamp($event['DTSTART']);
+    		$end= $ical->iCalDateToUnixTimestamp($event['DTEND']);
+    		$item =[];
+    		$item['uid'] = $event['UID'];
+    		$item['summary'] = $event['SUMMARY'];
+    		$item['start'] = $start;
+    		$item['end'] = $end;
+
+    		$data[] = $item;
+    	}
+
+    	$this->saveDataCalendar($data);
+    }
+    public function saveDataCalendar($data){
+
+        foreach ($data as  $value) {
+            $calendar = new Calendar;
+            $calendar->uid = $value['uid'];
+            $calendar->summary = $value['summary'];
+            $calendar->start = $value['start'];
+            $calendar->end = $value['end'];
+            $calendar->year = date('Y',time());
+            $calendar->difference = 0;
+            $calendar->created_at = new Datetime();
+            $calendar->save();
+        }
+        
+    }
+    
+}
