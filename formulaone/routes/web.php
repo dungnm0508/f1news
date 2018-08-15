@@ -15,3 +15,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/cron',['as'=>'cronData','uses'=>'AppController@cronData']);
+
+Route::get('getData',['as'=>'getData','uses'=>'AppController@getDataCalendar']);

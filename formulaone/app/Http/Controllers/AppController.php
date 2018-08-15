@@ -44,5 +44,18 @@ class AppController extends Controller
         }
         
     }
+    public function getDataCalendar(){
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $timeOriginal = [];
+        
+        foreach (Calendar::all() as $key => $value) {
+            $d=getdate($value->start+$value->difference*3600);
+            // $timeOriginal[] = date('d.m.Y H:i:s', $value->start+$value->difference*3600);
+            $timeOriginal[] = $d['weekday'];
+        }
+        
+        var_dump($timeOriginal) ;
+        
+    }
     
 }
