@@ -54,7 +54,7 @@ class AppController extends Controller
             $timeOriginal[] = $d['weekday'];
         }
         
-        var_dump($timeOriginal) ;
+        var_dump($timeOriginal)    ;   
         
     }
     
